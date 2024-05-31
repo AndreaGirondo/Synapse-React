@@ -11,12 +11,6 @@ function HomePage() {
     return (
         <div>
             <PageTailwind />
-            <h2 className='text-orange-400 text-2xl'>Bonjour Synapse</h2>
-            <RegisterForm />
-            <br/>
-            <LoginForm />
-            <br/>
-            
         </div>
     );
 };

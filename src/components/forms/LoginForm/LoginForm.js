@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LoginUser } from '../../../api/RouteAPI';
 import Modal from 'react-modal';
+import RegisterForm from '../RegisterForm/RegisterForm';
 
 Modal.setAppElement('#root'); 
 
@@ -38,13 +39,16 @@ function LoginForm({ isModalOpen, setIsModalOpen, setName, setIsAuthenticated })
 
   return (
       <>
-        
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="text-white text-sm font-semibold leading-6"
-            >
-              Se connecter
-            </button>
+        <div className="flex items-center">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="text-white text-sm font-semibold leading-6"
+          >
+            Se connecter
+          </button>
+          <span className="mx-4">/</span>
+          <RegisterForm />
+        </div>
   
         <Modal
           isOpen={isModalOpen}
@@ -138,43 +142,69 @@ function LoginForm({ isModalOpen, setIsModalOpen, setName, setIsAuthenticated })
     );
   }
 
-function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [name, setName] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-    const savedName = localStorage.getItem('name');
-    if (token && isAuthenticated && savedName) {
-      setName(savedName);
-      setIsAuthenticated(true);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('name');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('isAuthenticated');
-    setIsAuthenticated(false);
-    setName('');
-    window.location.reload(); 
-  };
+  function App() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [name, setName] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  return (
-    <div>
-      {isAuthenticated ? (
-        <div>
-          <span className='text-black 2xl'>{name}</span>
-          <button onClick={handleLogout}>Se déconnecter</button>
-        </div>
-      ) : (
-        <LoginForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} setName={setName} setIsAuthenticated={setIsAuthenticated}/>
-      )}
-    </div>
-  );
-}
-
-export default App;
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+      const savedName = localStorage.getItem('name');
+      if (token && isAuthenticated && savedName) {
+        setName(savedName);
+        setIsAuthenticated(true);
+      }
+    }, []);
+  
+    const handleLogout = () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('name');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('isAuthenticated');
+      setIsAuthenticated(false);
+      setName('');
+      window.location.reload();
+    };
+  
+    const toggleMenu = () => {
+      setIsMenuOpen(!isMenuOpen);
+    };
+  
+    return (
+      <div className="relative">
+        {isAuthenticated ? (
+          <div className="relative inline-block text-left">
+            <span
+              className="text-white text-sm font-bold leading-6"
+              onClick={toggleMenu}
+            >
+              {name}
+            </span>
+            {isMenuOpen && (
+              <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={handleLogout}
+                  >
+                    Se déconnecter
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <LoginForm
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            setName={setName}
+            setIsAuthenticated={setIsAuthenticated}
+          />
+        )}
+      </div>
+    );
+  }
+  
+  export default App;
