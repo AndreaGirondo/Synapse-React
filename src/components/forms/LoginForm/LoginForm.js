@@ -37,82 +37,106 @@ function LoginForm({ isModalOpen, setIsModalOpen, setName, setIsAuthenticated })
   };
 
   return (
-    <div>
-      <button onClick={() => setIsModalOpen(true)} className='text-black'>Se connecter</button>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        style={{
-          content: {
-            width: '32vw', // utilisation d'unité relative
-            height: '76vh',
-            margin: 'auto',
-            backgroundColor: '#1C1C1C',
-            border: 'none',
-          },
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.78)',
-            zIndex: 1100,
-          },
-        }}
-      >
-
-        <div className='divBtn'>
-          <label className='labelInput font-poppins text-white font-bold text-xs'>Email</label>
-
-          <input 
-            type="email" 
-            value={email} 
-            onChange={e => setEmail(e.target.value)} 
-            className='btnRegister font-poppins font-medium mt-1'/>
-          {errorMessage.email &&
-            <div className='errorMessage'>{errorMessage.email.join(', ')}</div>
-          }
-
-        </div>
-
-        <div className='mt-5 ml-[6em]'>
-          <label className='labelInput font-poppins text-white font-bold text-xs'>Mot de passe</label>
-          <div className='relative'>
-
-            <input 
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className='flex bg-[#1C1C1C] p-[1vh] border-[1.2px] border-[#4F4F4F] rounded-[6px] w-[24vw] text-white font-poppins font-medium mt-1'
-            />
-
-            <button 
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className='absolute inset-y-0 right-0 flex items-center px-2 text-white'
+      <>
+        
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="text-white text-sm font-semibold leading-6"
             >
-            {showPassword ? 'Hide' : 'Show'}
+              Se connecter
             </button>
-
+  
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={() => setIsModalOpen(false)}
+          style={{
+            content: {
+              width: '32vw',
+              height: '76vh',
+              margin: 'auto',
+              backgroundColor: '#111827',
+              border: 'none',
+              borderRadius: '0.7rem',
+            },
+            overlay: {
+              backgroundColor: 'rgba(0, 0, 0, 0.78)',
+              zIndex: 1100,
+            },
+          }}
+        >
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            <form className="space-y-6" action="#" method="POST">
+              <h2 className="text-3xl font-bold text-center text-white">Se connecter</h2>
+              <div className="divBtn">
+                <label className="labelInput font-poppins text-white font-bold text-xs">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="block w-full rounded-md border-0 py-1.5 px-4 bg-[#FFFFFF] text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+                {errorMessage.email && (
+                  <div className="errorMessage text-red-500 text-xs">
+                    {errorMessage.email.join(', ')}
+                  </div>
+                )}
+              </div>
+  
+              <div className="mt-5">
+                <label className="labelInput font-poppins text-white font-bold text-xs">
+                  Mot de passe
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 px-4 bg-[#FFFFFF] text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center px-2 text-#111827"
+                  >
+                    {showPassword ? 'Hide' : 'Show'}
+                  </button>
+                </div>
+                {errorMessage.password && (
+                  <div className="errorMessage text-red-500 text-xs">
+                    {errorMessage.password.join(', ')}
+                  </div>
+                )}
+                {errorMessage.general && (
+                  <div className="errorMessage text-red-500 text-xs">
+                    {errorMessage.general}
+                  </div>
+                )}
+              </div>
+  
+              <div>
+                <button
+                  type="button"
+                  value="Submit"
+                  onClick={handleClick}
+                  className="flex w-full justify-center rounded-md bg-[#0072B4] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 hover:text-[#0072B4]"
+                >
+                  Se connecter
+                </button>
+              </div>
+  
+              <div className="mt-10 text-center text-sm text-gray-500">
+                <a href="/" className="font-semibold leading-6 text-white">
+                  je n'ai pas de compte <span className="text-[#0072B4] underline">S'inscrire</span>
+                </a>
+              </div>
+            </form>
           </div>
-
-          {errorMessage.password && 
-            <div className='errorMessage'>{errorMessage.password.join(', ')}</div>
-          }
-          {errorMessage.general && 
-            <div className='errorMessage'>{errorMessage.general}</div>
-          }
-
-        </div>
-
-        <button type="button" value="Submit" onClick={handleClick} className='btnSubmit text-orange_FFA800 font-poppins text-2xl font-bold'>Se connecter</button>
-
-        <a href="/" className='dejaCompte font-poppins text-sm font-extrabold text-gris_F1F1F1'>
-          je n'ai pas de compte
-          <span className='text-orange_FFA800'>.</span>
-          <span className='sinscrire font-poppins text-orange_FFA800 underline'>S'inscrire</span>
-        </a>
-
-      </Modal>
-    </div>
-  );
-}
+        </Modal>
+      </>
+    );
+  }
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);

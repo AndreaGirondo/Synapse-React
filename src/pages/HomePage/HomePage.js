@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import RegisterForm from '../../components/forms/RegisterForm/RegisterForm';
 import LoginForm from '../../components/forms/LoginForm/LoginForm';
+import PageTailwind from '../../components/forms/PageTailwind';
 
 
 function HomePage() {
@@ -9,14 +10,13 @@ function HomePage() {
 
     return (
         <div>
+            <PageTailwind />
             <h2 className='text-orange-400 text-2xl'>Bonjour Synapse</h2>
             <RegisterForm />
             <br/>
             <LoginForm />
-
-            <div>
-                <LoginForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} name={name} setName={setName}/>
-            </div>
+            <br/>
+            
         </div>
     );
 };
